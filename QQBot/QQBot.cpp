@@ -61,6 +61,8 @@ int main()
         return 0;
     thread TRepeatBan(RepeatBan);
     TRepeatBan.detach();
+    thread TCleanMemory(CleanMemory);
+    TCleanMemory.detach();
     startHttpServer("0.0.0.0", 9001, MyHttpServerHandler, NULL);
     return 0;
 

@@ -98,7 +98,7 @@ void RepeatBan()
         {
             if (it->second.skip == false)
             {
-                int ban_id_count = Random(0, it->second.count);
+                int ban_id_count = Random(1, it->second.count);
                 Ban(GROUP_ID, it->second.uID_Array[ban_id_count]);
                 SendGroupMsg(GROUP_ID, "让我康康沙雕群友又在复读什么鸡*");
                 message.erase(it++);
@@ -112,4 +112,20 @@ void RepeatBan()
         MSleep(1, "ms");
     }
 
+}
+
+void CleanMemory()
+{
+    while (true)
+    {
+        MSleep(5 * 60, "s");   //五分钟清理一次历史消息
+        unordered_map<string, ID_List>::iterator it;
+        Mtx_Lock(mtx_message);
+        for (it = message.begin(); it != message.end();)
+        {
+            message.erase(it++);
+        }
+        cout << "memory cleaned" << endl;
+        Mtx_Unlock(mtx_message);
+    }
 }
